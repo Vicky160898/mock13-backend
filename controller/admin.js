@@ -1,7 +1,7 @@
 const express = require("express");
 const AdminModel = require("../models/admin");
 const app = express.Router();
-app.get("/", async (req , res) => {
+app.get("/", async (req, res) => {
   try {
     let job = await AdminModel.find();
     res.send(job);
@@ -26,4 +26,13 @@ app.post("/job", async (req, res) => {
   }
 });
 
+app.get("/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const data = await AdminModel.findById(id);
+    res.status(200).send(data);
+  } catch (e) {
+    res.status(500).send(e.message);
+  }
+});
 module.exports = app;
