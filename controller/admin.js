@@ -29,10 +29,10 @@ app.post("/job", async (req, res) => {
 app.get("/:id", async (req, res) => {
   const { id } = req.params;
   try {
-    const data = await AdminModel.findById(id);
-    res.status(200).send(data);
+    await AdminModel.findByIdAndDelete(id);
+    return res.status(200).send({message:"Deleted"});
   } catch (e) {
-    res.status(500).send(e.message);
+   return res.status(500).send(e.message);
   }
 });
 module.exports = app;
