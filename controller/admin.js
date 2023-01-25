@@ -1,22 +1,11 @@
 const express = require("express");
 const AdminModel = require("../models/admin");
 const app = express.Router();
+
 app.get("/", async (req, res) => {
-  const { location, contract } = req.query;
   try {
-    if (location && contract) {
-      let job = AdminModel.find({ location: location, contract: contract });
-      return res.send({ message: "success", data: job });
-    } else if (location) {
-      let job = AdminModel.find({ location: location });
-      return res.send({ message: "success", data: job });
-    } else if (contract) {
-      let job = AdminModel.find({ contract: contract });
-      return res.send({ message: "success", data: job });
-    } else {
-      let job = await AdminModel.find();
-      return res.send({ message: "success", data: job });
-    }
+    let job = await AdminModel.find();
+    return res.send({ message: "success", data: job });
   } catch (e) {
     res.send({ message: e.message });
   }
@@ -86,4 +75,26 @@ app.get("/search/:key", async (req, res) => {
   });
   res.send(result);
 });
+
+app.get("/data", async (req, res) => {
+  const { location, contract } = req.query;
+  try {
+    if (location && contract) {
+      let job = AdminModel.find({ location: location, contract: contract });
+      return res.send({ message: "success", data: job });
+    } else if (location) {
+      let job = AdminModel.find({ location: location });
+      return res.send({ message: "success", data: job });
+    } else if (contract) {
+      let job = AdminModel.find({ contract: contract });
+      return res.send({ message: "success", data: job });
+    } else {
+      let job = await AdminModel.find();
+      return res.send({ message: "success", data: job });
+    }
+  } catch (e) {
+    res.send({ message: e.message });
+  }
+});
+
 module.exports = app;
