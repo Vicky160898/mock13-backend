@@ -14,7 +14,7 @@ app.post("/job", async (req, res) => {
   const { company_name, position, contract, location } = req.body;
   try {
     let jobs = new AdminModel({
-      company_name: company_name,
+      company_name: company_name.toUpperCase(),
       position: position,
       contract: contract,
       location: location,
@@ -63,6 +63,8 @@ app.put("/update/:id", async (req, res) => {
     });
   }
 });
+
+
 
 app.get("/search/:key", async (req, res) => {
   let result = await AdminModel.find({
