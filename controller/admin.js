@@ -32,7 +32,35 @@ app.delete("/:id", async (req, res) => {
     await AdminModel.findByIdAndDelete(id);
     return res.status(200).send({ message: "Deleted" });
   } catch (e) {
-    return res.status(500).send(e.message);
+    res.status(500).send({
+      status: 500,
+      message: `Something wen't wrong`,
+    });
+  }
+});
+
+app.put("/update/:id", async (req, res) => {
+  const id = req.params.id;
+  try {
+    const user = await AdminModel.findByIdAndUpdate(id, req.body, {
+      new: true,
+      useFindAndModify: false,
+    });
+    if (!user) {
+      return res.status(500).send({
+        status: 500,
+        message: `user not found with id ${id}`,
+      });
+    }
+    res.status(200).send({
+      status: 200,
+      message: "Update successfully",
+    });
+  } catch (error) {
+    res.status(500).send({
+      status: 500,
+      message: `Something wen't wrong`,
+    });
   }
 });
 
