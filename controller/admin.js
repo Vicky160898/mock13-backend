@@ -2,9 +2,21 @@ const express = require("express");
 const AdminModel = require("../models/admin");
 const app = express.Router();
 app.get("/", async (req, res) => {
+  const { location, contract } = req.query;
   try {
-    let job = await AdminModel.find();
-    res.send(job);
+    if (location && contract) {
+      let job = AdminModel.find({ location: location, contract: contract });
+      return res.send({ message: "success", data: job });
+    } else if (location) {
+      let job = AdminModel.find({ location: location });
+      return res.send({ message: "success", data: job });
+    } else if (contract) {
+      let job = AdminModel.find({ contract: contract });
+      return res.send({ message: "success", data: job });
+    } else {
+      let job = await AdminModel.find();
+      return res.send({ message: "success", data: job });
+    }
   } catch (e) {
     res.send({ message: e.message });
   }
@@ -63,8 +75,6 @@ app.put("/update/:id", async (req, res) => {
     });
   }
 });
-
-
 
 app.get("/search/:key", async (req, res) => {
   let result = await AdminModel.find({
