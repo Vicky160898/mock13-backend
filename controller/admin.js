@@ -88,15 +88,19 @@ app.get("/search/:key", async (req, res) => {
 
 app.get("/data", async (req, res) => {
   const { location, contract } = req.query;
+
   try {
     if (location && contract) {
-      let job = AdminModel.find({ location: location, contract: contract });
+      let job = await AdminModel.find({
+        location: location,
+        contract: contract,
+      });
       return res.send({ message: "success", data: job });
     } else if (location) {
-      let job = AdminModel.find({ location: location });
+      let job = await AdminModel.find({ location: location });
       return res.send({ message: "success", data: job });
     } else if (contract) {
-      let job = AdminModel.find({ contract: contract });
+      let job = await AdminModel.find({ contract: contract });
       return res.send({ message: "success", data: job });
     } else {
       let job = await AdminModel.find();
