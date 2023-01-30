@@ -83,7 +83,7 @@ app.get("/search/:key", async (req, res) => {
       },
     ],
   });
-  res.send(result);
+  res.send({ message: "success", data: result });
 });
 
 app.get("/data", async (req, res) => {
