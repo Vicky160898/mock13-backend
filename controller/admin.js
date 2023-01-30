@@ -41,12 +41,22 @@ app.delete("/:id", async (req, res) => {
 });
 
 app.put("/update/:id", async (req, res) => {
+  const { company_name, position, contract, location } = req.body;
   const id = req.params.id;
   try {
-    const user = await AdminModel.findByIdAndUpdate(id, req.body, {
-      new: true,
-      useFindAndModify: false,
-    });
+    const user = await AdminModel.findByIdAndUpdate(
+      id,
+      {
+        company_name: company_name.toUpperCase(),
+        position: position,
+        contract: contract,
+        location: location,
+      },
+      {
+        new: true,
+        useFindAndModify: false,
+      }
+    );
     if (!user) {
       return res.status(500).send({
         status: 500,
